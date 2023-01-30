@@ -1,0 +1,23 @@
+<!-- indica para o Go compor os templates -->
+{{ template "header.html" }}
+
+<h1>Cursos</h1>
+<table>
+    <thead>
+        <tr>Nome</tr>
+        <tr>Horas</tr>
+    </thead>
+    <tbody>
+        <!--
+            inicia um for para preencher o template com os dados da struct
+        -->
+        {{ range . }}
+            <tr>
+                <td>{{ .Nome }}</td>
+                <td>{{ .CargaHoraria }}</td>
+            </tr>
+        {{ end }}
+    </tbody>
+</table>
+
+{{ template "footer.html" }}

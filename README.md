@@ -59,3 +59,29 @@ após instalação do GO, seram geradas 3 diretórios que são utilizados pela l
 - `go build` em uma app com modulo, na hora do build o go vai escanear toda a app para achar a funcao/package main para gerar o binario e por padrao o binario vai ser gerado com o nome do modulo
 
 - `go build -o nome-binario` gera o binario com um nome especifico atraves do parametro -o
+
+# Anotações 02_pacotes_importantes
+
+- `defer` é um statement em go que faz uma linha de instrucao dentro de uma funcao ser executada por ultimo, o defer vai segurar a execucao da instrucao até que ela seja a ultima coisa a ser executada
+
+- `json.Marshal(value)` geralmente é utilizado quando precisamos armazenar o retorno em json em uma variavel para usar posteriormente
+
+- `json.Unmarshal(value)` é o inverso do Marshal
+    - para ter conversao correta do json com struct, o json deve ter os mesmos campos que a struct tem para a funcao conseguir fazer a conversao correta exceto se tiver sendo utilizado tags na struct
+
+- `json.NewEncoder(out).Encode(value)` geralmente é utilizado quando queremos converter o valor para jjson e já enviar para algum lugar (console, arquivo...), sem a necessidade de armazenar em uma variavel
+
+- `json.NewDecoder(out).Decode(value)` fuciona inversamente ao Encoder, convertendo um json para algum valor e entregando para alguem (console, arquivo...)
+
+- Tags `json:"numero"` são como anotacoes em Go, o que diz para as bibliotecas como fazerem o bid das informacoes para as structs
+    - tags também são usadas para validacao de dados em uma struct
+    - para ignorar campos usando as tags no parse para json, usar `json:"-"`
+
+- `Multiplexer` -> atachador de rotas global no Go quando um server é iniciado
+- ServeMux é utilizado para ter mais controle no servidor, no registro de rotas
+
+- Sempre que trabalhar com templates em html, usar o pacote `html/template` pois ele vai implementações seguras para evitar alguns tipos de ataque em htmls
+
+- Sempre que trabalhar com templates em texto, usar o pacote `text/template`
+
+- pacote de context, servem para controlar uma operacao baseado em um tempo cancelando a operacao na hora caso excedda o tempo limite
