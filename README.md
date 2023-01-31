@@ -84,4 +84,16 @@ após instalação do GO, seram geradas 3 diretórios que são utilizados pela l
 
 - Sempre que trabalhar com templates em texto, usar o pacote `text/template`
 
-- pacote de context, servem para controlar uma operacao baseado em um tempo cancelando a operacao na hora caso excedda o tempo limite
+# Anotações 03_contexts
+
+- pacote de context, servem para controlar o tempo de uma operacao podendo cancelar a operacao caso exceda o tempo
+
+- contextos são utilizados para cancelar operacoes
+
+- é possivel armazenar informacoes dentro de um contexto, mas é controverso
+
+- contextos podem ser usandos em chamadas http, consultas a banco de dados ...
+
+- por convenção da linguagem o contexto sempre dever ser o primeiro parametro das funcoes
+
+- não é recomendado passar dados por contexto
