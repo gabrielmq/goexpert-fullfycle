@@ -124,3 +124,31 @@ após instalação do GO, seram geradas 3 diretórios que são utilizados pela l
 - Lock pessimista: locka a tabela, linha na base de dados durante as atualizações para que ninguem atualize o dado.
     - usado em um ambiente com muita concorrencia. Para garantir que nenhum processo sobreescreva a atualizacao do outro.
     - na query FOR UPDATE indica que a linha será lockada até que a operacao termine
+
+# Anotações 05_packaging
+
+- Funcoes, Struct que iniciarem com letras Maiusculas são exportadas
+
+- Funcoes, Struct que iniciarem com letras Minusculas são visiveis apenas dentro do proprio diretório
+
+- Go trabalha com módulos;
+
+- por boa prática é bom iniciar projetos em Go como modulos, pois o Go sempre espera que o projetos sejam criados dentro do GOTPATH, criando a aplicação como modulo podemos estar desenvolvendo fora do GOPATH
+
+- go mod trabalha de forma descentralizada, buscando os modulos onde eles estiverem hospedados
+
+- ao iniciar o modulo, por convesao devemos dar o nome da url do repositório onde o projeto esta, deve ser unico para evitar conflito
+`go mod init url-local-do-modulo`
+
+- `go mod tidy` -> vai avaliar o código e as importações de pacotes para baixar os pacotes que ainda não estão na dependencia, caso um pacote deixa de ser utilizado esse comando vai remover essa dependencia desnecessaria
+
+- `go mod tidy -e` vai fazer o go ignorar os pacotes que ele não achar
+
+- go.mod vai ser um gerenciador de dependencias das aplicacoes em Go
+
+- go.sum é um arquivo de lock, para garantir a versão das dependencias, para o go mod tidy nao ficar atualizando as versoes
+
+- go workspaces -> são workspaces locais para isolar as dependencias
+    `go work init nome-libs/modulos` comando para criar workspaces locais no go
+
+- cmd/ fica os pacotes com a funcao main
