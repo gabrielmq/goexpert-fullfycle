@@ -97,3 +97,30 @@ após instalação do GO, seram geradas 3 diretórios que são utilizados pela l
 - por convenção da linguagem o contexto sempre dever ser o primeiro parametro das funcoes
 
 - não é recomendado passar dados por contexto
+
+# Anotações 04_banco_de_dados
+
+- para abrir conexao com banco: sql.Open(diverName, connString) -> necessario informar o driver (mysql, sqlite...) e a string de conexao
+
+- Go só expoe as interfaces para interação com DB, as implementacoes não fazem parte do Go, por isso é necessario instalar os pacotes com as implementacoes especificas
+
+- GORM é utilizado para fazer o mapeamento objeto relacional, mapeando as structs para tabelas da base
+
+- soft delete significa que os registros de uma base nunca serao excluidos realmente, eles terao um campo indicando a data e hora em que o registro foi "deletado", porem o dado continua na base
+
+- BelongsTo: um dado que pertence a outro dado, por exemplo, um produto que pertence a uma categoria ou varios produtos que pertencem a uma categoria
+
+- HasOne: é uma relacionamento de 1:1
+
+- HasMany: é um relacionamento de 1:n
+
+- ManyToMany: é um relacionamento de n:n (muitos para muitos)
+
+- Lock otimista: versiona qualquer tipo de alteração em um dado na base de dados
+    - versão igual, commit é feito;
+    - versão diferente, aconteceu alguma atualização no dado o que fará o processo ser reiniciado, pois o dado foi alterado.
+    - usado em um ambiente com muitas transacoes, mas sem concorrencia
+
+- Lock pessimista: locka a tabela, linha na base de dados durante as atualizações para que ninguem atualize o dado.
+    - usado em um ambiente com muita concorrencia. Para garantir que nenhum processo sobreescreva a atualizacao do outro.
+    - na query FOR UPDATE indica que a linha será lockada até que a operacao termine
