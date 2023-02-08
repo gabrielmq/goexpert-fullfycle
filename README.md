@@ -152,3 +152,34 @@ após instalação do GO, seram geradas 3 diretórios que são utilizados pela l
     `go work init nome-libs/modulos` comando para criar workspaces locais no go
 
 - cmd/ fica os pacotes com a funcao main
+
+# Anotações 06_testing
+
+- Go já possui um suite de testes embutida na linguagem
+
+- por convenção os arquivos de teste devem ter o sufixo `_test`
+
+- `go test .` faz o Go rodar todos os testes dentro do diretorio
+
+- `go test -coverprofile=coverage.out` faz o go rodar os testes verificando a cobertura dos testes no código
+
+- `go tool cover -html=coverage.out` exporta para html o ponto do código onde nao esta tendo cobertura de código 
+
+- go possui uma ferramenta de benchmarking para saber a performance das funcoes
+
+- `go test -bench .` faz o go rodar um teste de benchmark de uma função
+
+- `go test -bench . -run=^#` faz o go rodar apenas os testes de benchmark
+BenchmarkCalculateTax-n-cores-cpu | 1000000000(n operacoes) | 0.2540 ns/op (operacoes por nanosegundos)
+
+- `go test -bench . -run=^# -benchmem` rodando branchmark validando a memoria
+
+- fuzzing é um tipo de teste em Go, que vai testar uma função com variações dos parametros que a função recebe para ver se em algum momento um dos parametros passados quebra a função
+
+- `go test -fuzz . -run=^#` usado para rodar testes de mutação no Go
+
+- `go test -run=caminho-da-fuzz-gerado` comando para executar um teste fuzz especifico
+
+- `go test -fuzz . -fuzztime 5s -run=^#` rodando os testes fuzz com um tempo especifico
+
+- `testify` é um pacote bem famoso que facilita os asserts de testes em go
