@@ -183,3 +183,27 @@ BenchmarkCalculateTax-n-cores-cpu | 1000000000(n operacoes) | 0.2540 ns/op (oper
 - `go test -fuzz . -fuzztime 5s -run=^#` rodando os testes fuzz com um tempo especifico
 
 - `testify` é um pacote bem famoso que facilita os asserts de testes em go
+
+# Anotações 07_APIs
+
+Principais diretórios convencionados estruturar apps em Go
+
+- `cmd/` -> aqui ficam os arquivos Go que geram o executavel da aplicação, ou seja, possuem a função main. Geralmente, dentro desse diretório existe um outro diretório com o nome da aplicação em questão que fica o arquivo com a função main.
+
+- `internal/` -> aqui ficam os arquivos Go, referentes a aplicação que esta sendo desenvolvida. São arquivos que só serão usados internamente na aplicação que esta sendo desenvolvida.
+
+- `pkg/` -> aqui ficam os arquivos Go, que são considerados libs e que são genericos o suficiente para serem reutilizados por outras aplicações ou pela mesma app.
+
+- `configs/` -> aqui ficam os arquivos de configuração de inicialização da app (arquivos Go ou outro tipo de template de configuração)
+
+- `test/` -> aqui ficam arquivos adicionais que são utilizados pelos arquivos de teste (podem ser arquivos Go ou outros tipos de arquivos)
+
+- `api/` -> aqui ficam os arquivos de especificações, documentações da api. Como por exemplo, swagger.
+
+- roteadores são responsáveis por registrar e agrupar rotas, middlewares ...
+
+- middlaware funciona como um intermediário recebendo uma req (ou outra coisa), realizando algum processamento em cima dessa req e chama um handler (ou outro middleware) para a req continuar
+
+- https://github.com/swaggo/swag para gerar documentação de api
+
+- `swag init -g caminho-arquivo-go-base` comando para gerar a doc swagger inicial
