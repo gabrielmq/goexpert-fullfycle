@@ -207,3 +207,31 @@ Principais diretórios convencionados estruturar apps em Go
 - https://github.com/swaggo/swag para gerar documentação de api
 
 - `swag init -g caminho-arquivo-go-base` comando para gerar a doc swagger inicial
+
+# Anotações 08_multithreading
+
+- SO gerencia, de forma isolada, diferentes processos. Os processos gerenciados pelo SO são independentes;
+
+- **THREADS** são _subprocessos_ de um processo principal, e fazendo parte de um processo principal, elas tem acesso aos dados que esse processo principal disponibiliza, _através do compartilhamennto de memoria com o processo principal_. Esse compartilhamento de memoria entre processos/threads pode causar _race conditions_, que é quando dois processos/threads tentam manipular um dado ao mesmo tempo, podendo causar comportamentos inesperados.
+
+- Threads são muito custosas para o SO, com relação a memoria e mudança de contexto entre as threads;  1 thread equivale a 1MB de memoria consumida;
+
+- THREADS COMPARTILHAM MEMORIA ENTRE SI, E ISSO NUNCA É BOM;
+
+- MUTEX (Multual Exclusion) é uma forma de dar LOCK! no dado, para que apenas uma thread manipule-o, evitando que mais de uma thread manipule o dado ao mesmo tempo; o LOCK trava o dado para que a thread manipule o dado, após realizar a manipulação, é feito o UNLOCK do dado para que outra thread manipule o dado. EM GO NÃO É ENCORAJADO UTILIZAR MUTEX.
+
+- Concorrencia é quando temos diversos processos/threads competindo ao mesmo tempo, e muitas vezes conflitando dados que estão sendo modificados ao mesmo tempo por 2 ou mais processos.
+
+- Paralelismo é quando temos diversos processos/threads executando ao mesmo tempo, de forma paralela. Paralelismo acontece de forma nativa no Go, quando executamos processos em mais de 1 core de cpu
+
+- Go trabalha de forma concorrente, mas com o multicore o paralelismo é atividado automáticamente;
+
+- Schedulers gerenciam as threads, coordenando a execução delas, a troca de contexto:
+    - preempitivo: é um tipo de scheduler que determina um tempo de execução para cada thread. Quando o tempo de execução de uma thread excede o determinado, ele vai interromper a execução da thread para iniciar a execução de outra thread;
+    - cooperativo: é um tipo de scheduler que espera uma thread finalizar a execução, para começar a execução de outra thread;
+
+- GO tem seu próprio gerencimento de threads em seu Runtime, tendo suas próprias threads não precisando usar as threads do SO, essas threads do Go são chamadas de _green threads_ ou _thread in userlands_, que são threads virtuais. As green threads são leves (2Kb) e gerenciadas pelo Scheduler próprio do GO;
+
+- O Scheduler que o Go tem para gerenciar as green threads por padrao é cooperativo, ou seja, espera uma thread terminar seu processamento para começar o processamento de outra thread, mas o scheduler é inteligente o suficiente para saber quando mudar para o preempitivo para matar threads que podem travar o sistema inteiro;
+
+- Em Go, channels fazem a comunicação entre threads, tendo mais segurança pois a thread sabe o momento que ela pode processar os dados do chennel
