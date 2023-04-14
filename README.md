@@ -235,3 +235,14 @@ Principais diretórios convencionados estruturar apps em Go
 - O Scheduler que o Go tem para gerenciar as green threads por padrao é cooperativo, ou seja, espera uma thread terminar seu processamento para começar o processamento de outra thread, mas o scheduler é inteligente o suficiente para saber quando mudar para o preempitivo para matar threads que podem travar o sistema inteiro;
 
 - Em Go, channels fazem a comunicação entre threads, tendo mais segurança pois a thread sabe o momento que ela pode processar os dados do chennel
+
+# Anotações 09_manipulacao_eventos
+
+- Eventos estão relacionados a uma ação que aconteceu no passado
+
+- Elementos de manipulacao evento:
+    - Evento: o principal, carrega dados
+    - Operações que serão executadas quando um evento é chamado (envio de email apos cadastro, notificacao de fila/topico...)
+    - Gerenciador dos eventos/operações
+        - Ele é responsavel por registrar os eventos e suas operações
+        - Despachar o evento para que suas operações sejam executadas
