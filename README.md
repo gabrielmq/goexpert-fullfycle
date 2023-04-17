@@ -246,3 +246,28 @@ Principais diretórios convencionados estruturar apps em Go
     - Gerenciador dos eventos/operações
         - Ele é responsavel por registrar os eventos e suas operações
         - Despachar o evento para que suas operações sejam executadas
+
+# Anotações 10_go_private
+
+- GOPRIVATE é uma variavel de ambiente do GO que podemos configurar repositórios privados que o Go pode baixar
+
+- É possivel passar as credenciais para autenticar com o repositório, para podermos baixar o repositorio privado; Existem duas formas de passar as credenciais de autenticação
+    - pelo arquivo .netrc (que fica na raiz do usuario linux/unix e faz autenticação por http), adicionando:
+        ```
+        machine github.com ou outro repo
+        login gabrielmq
+        password token_github (github.com -> settings -> Developer settings -> Tokens (classic))
+        ```
+    - por ssh, atualizando o arquivo .gitconfig adicionando
+        ```
+        [url "ssh://git@github.com/"] // vai usar autenticação por ssh no lugar de https
+            insteadOf = https://github.com/
+        ```
+
+- exemplo: export GOPRIVATE=github.com/gabrielmq/goexpert,outro-repo
+    - devemos passar para o GOPRIVATE o caminho do repositório privado que queremos fazer o download
+
+- Go Proxy é meio que um repositório do GO que ele armazena os repositórios mais baixados, para não precisar baixar toda hora do github
+
+- vendor/ é uma pasta que contem todas as dependencias que o projeto precisa. `go mod vendor` esse comando irá criar a pasta vendor
+ - isso vai evitar possiveis problemas na hora de baixar as dependencias durante o build do projeto
