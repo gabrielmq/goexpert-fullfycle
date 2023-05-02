@@ -271,3 +271,13 @@ Principais diretórios convencionados estruturar apps em Go
 
 - vendor/ é uma pasta que contem todas as dependencias que o projeto precisa. `go mod vendor` esse comando irá criar a pasta vendor
  - isso vai evitar possiveis problemas na hora de baixar as dependencias durante o build do projeto
+
+# Anotações 11(10)_graphql
+
+- É uma forma de fazer uma requisição para um servidor e escolher os campos retornados
+
+- https://gqlgen.com/ lib para criar projetos graphql em go
+
+- `go run github.com/99designs/gqlgen init` cria a estrutura inicial
+
+- `go run github.com/99designs/gqlgen generate` recria os models do graphql

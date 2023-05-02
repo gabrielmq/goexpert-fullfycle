@@ -1,0 +1,38 @@
+# Representa a entidade no graphql
+type Category {
+  id: ID! # ! indica a obrigatoriedade do atributo
+  name: String!
+  description: String
+  courses: [Course!]
+}
+
+type Course {
+  id: ID!
+  name: String!
+  description: String
+  category: Category!
+}
+
+# Representa a entrada de dados pelo graphql
+input NewCategory {
+  name: String!
+  description: String
+}
+
+input NewCourse {
+  name: String!
+  description: String
+  categoryId: ID!
+}
+
+# Representa as consultas expostas no graphql
+type Query {
+  categories: [Category!]!
+  courses: [Course!]!
+}
+
+# Representa alterações nas entidades do graphql
+type Mutation {
+  createCategory(input: NewCategory!): Category!
+  createCourse(input: NewCourse!): Course!
+}
