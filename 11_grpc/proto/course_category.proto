@@ -1,0 +1,53 @@
+// define a versão do protofile
+syntax = "proto3";
+
+// define o nome do pacote para ser gerado os arquivos, por convenção é pb
+package pb;
+
+// define o nome do pacote onde será instalado baseado na linguagem de programacao
+option go_package = "internal/pb";
+
+// muito usado quando não queremos passar nada na "requisicao"
+// como o grpc obriga passar parametros, essa msg é só pra dar uma bypass
+message blank {}
+
+// define a entidade para o Grpc
+message Category {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+
+// define a entidade que será recebida pelo serviço grpc
+message CreateCategoyRequest {
+    string name = 1;
+    string description = 2;
+}
+
+// define a entidade que sera devolvidda pelo serviço grpc
+message CategoryResponse {
+    Category category = 1;
+}
+
+message CategoryList {
+    // define uma lista
+    repeated Category categories = 1;
+}
+
+message GetCategoryRequest {
+    string id = 1;
+}
+
+// define os serviços de category expostos pelo grpc (como se fosse um endpoint)
+service CategoryService {
+    rpc CreateCategory(CreateCategoyRequest) returns (CategoryResponse) {}
+    rpc ListCategories(blank) returns (CategoryList) {}
+    rpc GetCategory(GetCategoryRequest) returns (Category) {}
+
+    // criando um servico de stream, que recebe requisicoes por stream
+    rpc CreateCategoryStream(stream CreateCategoyRequest) returns (CategoryList) {}
+
+    // criando um servico de stream, que recebe requisicoes por stream e envia as respostas por stream
+    rpc CreateCategoryStreamBidirectional(stream CreateCategoyRequest) returns (stream Category) {}
+}

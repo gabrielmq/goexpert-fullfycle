@@ -281,3 +281,56 @@ Principais diretórios convencionados estruturar apps em Go
 - `go run github.com/99designs/gqlgen init` cria a estrutura inicial
 
 - `go run github.com/99designs/gqlgen generate` recria os models do graphql
+
+# Anotações 12(11)_grpc
+
+- É um framework criado pela google, que facilita o processo de comunicação entre sistemas
+
+- É um framework rápido, leve e não depende de linguagem; Trafega os dados em binário, por isso é muito rápido;
+
+- Ideal para comunicação entre microserviços;
+
+- Faz streaming bidirecional(recebe/manda stream de dados em uma conexão http) com http/2
+
+- Protocol buffers é uma linguagem, independente, rápida e simples, utilizada para criação dos "contratos" dos serviços GRPC; Ele gasta menos recursos de rede e é mais leve para serialização; GRPC tem uma dep com  protobuf
+
+- Protocol buffers => proto buf
+
+- Comunicação GRPC unária ou unary ->  É uma comunicação request/response
+
+- Comunicação GRPC server streaming -> É uma comunicação onde o client envia um request e o server devolve várias responses, conforme o dado for sendo disponibilizado para response no server
+
+- Comunicação GRPC client streaming -> É o oposto do server streaming, nesse caso o client vai enviando os dados para o server (server devolve um unico response após terminar de processar tudo) conforme o dado for sendo processado no client;
+
+- Comunicação GRPC BI directional streaming -> É a junção do server streaming + client streaming, client envia para o server vários request conforme os dados forem sendo processado, e o server devolve os dados em vários responses conforme o dado for sendo processado;
+
+- Rest:
+    - Usar Texto/JSON (serialização/deserialização lenta)
+    - Unidirecional (request/response)
+    - Alta latencia (client tem que mandar o request e esperar o server processar e devolver o response)
+    - Sem contrato especifico
+    - Sem suporter a streaming
+    - Design é pré-definido (métodos http, padrão de urls)
+
+- GRPC:
+    - Usa protocol buffers (serialização/deserialização rápida)
+    - Bidirecional e assincrono (enquanto as informações são enviadas pelo client, o server já esta processando e devolvendo a resposta)
+    - Baixa latencia
+    - Contrato definido (pelo arquivo .proto)
+    - Suporta streaming
+    - Código gerado pela lib
+
+- pluging necessária para gerar de forma automatica as entidades (Messages) definidas no proto file
+    - go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+
+- pluging necessária para gerar de forma automática os serviços (Services) definidos no proto file
+    - go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+
+- _protoc_ é o compilador dor arquivos .proto, necessário ter ele instalado
+
+- comando que gera os arquivos baseado na definição do protofile
+    -  protoc --go_out=.(gera os aquivo baseado no protobuf) --go-grpc_out=.(gera as interfaces go para comunicação com grpc) proto/course_category.proto (path do arquivo)
+
+- existe uma ferramenta chamada evans que possibilita realizar as requisições no gRPC via terminal
+
+- com gRPC devemos nos preocupar apenas em implementar as interfaces gRPC criadas a partir do protofile
