@@ -334,3 +334,9 @@ Principais diretórios convencionados estruturar apps em Go
 - existe uma ferramenta chamada evans que possibilita realizar as requisições no gRPC via terminal
 
 - com gRPC devemos nos preocupar apenas em implementar as interfaces gRPC criadas a partir do protofile
+
+# Anotações 13(12)_upload_s3
+
+- controlar por channel o numero de upload assincronos
+
+- WaitGroup para segurar o programa enquanto as threads realizam o processamento
