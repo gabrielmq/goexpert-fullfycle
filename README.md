@@ -340,3 +340,25 @@ Principais diretórios convencionados estruturar apps em Go
 - controlar por channel o numero de upload assincronos
 
 - WaitGroup para segurar o programa enquanto as threads realizam o processamento
+
+# Anotações 14(13)_cobra_cli
+
+- cli => command line interface
+
+- cobra cli é uma biblioteca para criar programas de linha de comando em go
+
+- cobra tem uma integração nativa com a lib viper
+
+- para instalar o cobra go install github.com/spf13/cobra-cli@latest
+
+- `cobra-cli init` inicializa um projeto de cli
+
+- `cobra-cli add command-name` é o comando para criar novos comandos na aplicação
+
+- `cobra-cli add create -p 'categoryCmd'` cria uma comando filho de outro
+
+- persistente flags -> é basicamente uma flag global para um comando e seus comandos "filhos"
+
+- flags -> é uma flag local apenas para um comando
+
+- hooks permitem fazer execuções antes e após o comando ser executado
