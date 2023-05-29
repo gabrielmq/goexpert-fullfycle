@@ -362,3 +362,13 @@ Principais diretórios convencionados estruturar apps em Go
 - flags -> é uma flag local apenas para um comando
 
 - hooks permitem fazer execuções antes e após o comando ser executado
+
+# Anotações 15(14)_sqlc
+
+- sqlc é uma lib Go que gera código GO a partir de uma instrução sql pura
+
+- `migrate create -ext=sql -dir=sql/migrations -seq init` inicializa uma migration
+
+- `migrate -path sql/migrations -database "mysql://root:root@tcp(localhost:3306)/courses" up` executa as migrations na base
+
+- `migrate -path sql/migrations -database "mysql://root:root@tcp(localhost:3306)/courses" down` executa as migrations na base para rollback
