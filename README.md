@@ -372,3 +372,7 @@ Principais diretórios convencionados estruturar apps em Go
 - `migrate -path sql/migrations -database "mysql://root:root@tcp(localhost:3306)/courses" up` executa as migrations na base
 
 - `migrate -path sql/migrations -database "mysql://root:root@tcp(localhost:3306)/courses" down` executa as migrations na base para rollback
+
+# Anotações 16(15)_uow
+
+- UOW => unit of work, é uma padrão que cria uma atomicidade para 2 transações distintas, ou seja, com o uow ou toda transação da certo ou ela sera desfeita.
