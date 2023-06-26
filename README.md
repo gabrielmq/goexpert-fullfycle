@@ -376,3 +376,7 @@ Principais diretórios convencionados estruturar apps em Go
 # Anotações 16(15)_uow
 
 - UOW => unit of work, é uma padrão que cria uma atomicidade para 2 transações distintas, ou seja, com o uow ou toda transação da certo ou ela sera desfeita.
+
+# Anotações 17(16)_di
+
+Wire é uma lib de injeção de dependencias https://github.com/google/wire
