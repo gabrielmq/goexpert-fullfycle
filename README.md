@@ -380,3 +380,15 @@ Principais diretórios convencionados estruturar apps em Go
 # Anotações 17(16)_di
 
 Wire é uma lib de injeção de dependencias https://github.com/google/wire
+
+# Anotações 18(17)_clean_arch
+
+- Clean Architeture é um padrão de arquitetura/design de software criado pelo Uncle Bob
+
+- A Clean Arch protege o dominio da aplicação, separando as regras de negocio da infraestrutura gerando baixo acoplamento.
+
+- Camadas => limites arquiteturais
+
+- É orientada a casos de uso, que são as intenções de uso do sistema por um usuário
+
+- definir limites arquiteturais por abstrações
