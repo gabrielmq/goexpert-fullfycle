@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: gabrielmqsouza/deploy-k8s:latest
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "100m"
+        
+        # verifica se o container subiu e se pode receber reqs. Verifica apenas na primeira criação do pod
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10 # verficia a cada 10s
+          failureThreshold: 10 # numero maximo de falhas, se exceder um novo pod sera criado
+
+        # verifica se os pods estão prontos, caso o svc vai parar de mandar trafego para o pod com problemas
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10 # verficia a cada 10s
+          failureThreshold: 2 # numero maximo de falhas, se exceder um novo pod sera criado
+          timeoutSeconds: 5 # timeout das verificações
+
+        # verifica se a aplicação esta de pé, se a app ficar fora do ar várias vezes o container dela sera recriado
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10 # verficia a cada 10s
+          successThreshold: 1 # numero maximo de verificacoes com sucesso para garantir que a aplicacao esta no ar
+          failureThreshold: 3 # numero maximo de falhas, se exceder um novo pod sera criado
+          timeoutSeconds: 5 # espera 5s para uma nova tentativa
+
+        ports:
+        - containerPort: 8080
+

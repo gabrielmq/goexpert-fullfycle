@@ -1,0 +1,20 @@
+FROM golang:latest as builder
+
+WORKDIR /opt/app
+
+COPY . .
+
+# -o modifica o nome do binario
+# -ldflags="-w -s" faz com que o binário diminua de tamanho removendo algumas infos de debug
+# CGO_ENABLED=0 desabilita a dependecia que a linguagem GO tem com a linguagem C (por causa de libs em C)
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o app .
+
+###
+
+FROM scratch
+
+WORKDIR /opt/app
+
+COPY --from=builder /opt/app .
+
+CMD [ "./app" ]

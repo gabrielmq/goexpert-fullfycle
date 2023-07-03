@@ -392,3 +392,9 @@ Wire é uma lib de injeção de dependencias https://github.com/google/wire
 - É orientada a casos de uso, que são as intenções de uso do sistema por um usuário
 
 - definir limites arquiteturais por abstrações
+
+# Anotações 19(18)_deploy_k8s
+
+- Kind é uma ferramenta que cria um cluster k8s local utilizando docker
+
+- cria um cluster k8s `kind create cluster --name=goexpert`
