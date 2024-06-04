@@ -1,8 +1,14 @@
 package main
 
 import (
-	"log"
+	"context"
+	"fmt"
+	"log/slog"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gabrielmq/apis/configs"
 	_ "github.com/gabrielmq/apis/docs" // importa a doc para ser enncontrada
@@ -84,14 +90,51 @@ func main() {
 	// criando a rota para a doc swagger
 	router.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8000/docs/doc.json")))
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	slogJsonHandler := slog.NewJSONHandler(os.Stdout, nil)
+	slog.SetDefault(slog.New(slogJsonHandler))
+
+	server := &http.Server{
+		Addr:     ":8000",
+		Handler:  router,
+		ErrorLog: slog.NewLogLogger(slogJsonHandler, slog.LevelError),
+	}
+
+	serverError := make(chan error, 1)
+	go func() {
+		slog.Info("starting application on port :8000")
+		if err := server.ListenAndServe(); err != nil {
+			if err != http.ErrServerClosed {
+				serverError <- err
+			}
+		}
+	}()
+
+	shutdownSignal := make(chan os.Signal, 1)
+	signal.Notify(shutdownSignal, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+
+	select {
+	case err := <-serverError:
+		slog.Error(fmt.Sprintf("failed to start application: %v", err))
+	case <-shutdownSignal:
+		slog.Info("shutting down server...")
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		if err := server.Shutdown(ctx); err != nil {
+			slog.Error(fmt.Sprintf("could not gracefully shutdown the server: %v", err))
+			return
+		}
+
+		slog.Info("server shutdown gracefully")
+	}
 }
 
 // Criando um middleware que loga o request
 // em Go middlawares devem retornar um http.Handler
 func LogRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("Request: %s %s", r.Method, r.URL.Path)
+		slog.Info("Request: %s %s", r.Method, r.URL.Path)
 		next.ServeHTTP(w, r)
 	})
 }
